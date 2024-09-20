@@ -1,0 +1,35 @@
+// define a simple function to compute the sum of two numbers
+fun add(a, b) {
+    return a + b
+}
+
+fun fib(n) {
+    let a = 0
+    let b = 1
+    for i = 0 to n - 1 {
+        display(a)
+        let temp = a
+        a = b
+        b = temp + b
+    }
+}
+
+fun main() {
+    
+    display("Fibonacci sequence:")
+    fib(10)
+
+    let sum = add(42, 58)
+    display("Sum of 42 and 58 =", sum)
+
+    let num = 5
+    let squared = square(num)
+    display("Square of", num, "is", squared)
+}
+
+fun square(x) {
+    return x * x
+}
+
+
+main()
