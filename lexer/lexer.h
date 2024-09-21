@@ -7,10 +7,16 @@ enum class TokenKind { Identifier, Number, Operator, TokEOF, Unknown };
 extern std::string IdentifierStr;
 extern double NumVal;
 
+
+struct Token {
+    TokenKind kind;
+    std::string value;
+};
+
 class Lexer {
 public:
+    Token getNextToken();
     void setInput(const std::string &inputStr);
-    TokenKind getNextToken();
     
 private:
     char currentChar();

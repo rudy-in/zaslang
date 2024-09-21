@@ -2,6 +2,7 @@
 #include <cctype>
 #include <stdexcept>
 
+// Global variables
 std::string IdentifierStr;
 double NumVal;
 Lexer lexer; // Global lexer instance
@@ -24,7 +25,7 @@ void Lexer::advance() {
     }
 }
 
-TokenKind Lexer::getNextToken() {
+Token Lexer::getNextToken() {
     while (isspace(currentChar())) advance();
 
     if (isdigit(currentChar())) {
@@ -34,7 +35,7 @@ TokenKind Lexer::getNextToken() {
             advance();
         }
         NumVal = std::stod(numStr);
-        return TokenKind::Number;
+        return Token{TokenKind::Number, numStr}; // Return Token with value
     }
 
     if (isalpha(currentChar())) {
@@ -43,22 +44,24 @@ TokenKind Lexer::getNextToken() {
             IdentifierStr += currentChar();
             advance();
         }
-        return TokenKind::Identifier;
+        return Token{TokenKind::Identifier, IdentifierStr}; // Return Token with value
     }
 
     if (currentChar() == '+' || currentChar() == '-' || currentChar() == '*' || currentChar() == '/') {
+        std::string opStr(1, currentChar());
         advance();
-        return TokenKind::Operator;
+        return Token{TokenKind::Operator, opStr}; // Return Token with value
     }
 
     if (currentChar() == '\0') {
-        return TokenKind::TokEOF;
+        return Token{TokenKind::TokEOF, ""}; // Return EOF Token
     }
 
     advance();
-    return TokenKind::Unknown; // Handle unknown characters
+    return Token{TokenKind::Unknown, ""}; // Handle unknown characters
 }
 
+// Ensure this function is not inside any class
 int gettok() {
-    return static_cast<int>(lexer.getNextToken()); // Use the Lexer instance
+    return static_cast<int>(lexer.getNextToken().kind); // Use the Lexer instance
 }
