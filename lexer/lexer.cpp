@@ -10,7 +10,7 @@ Token Lexer::getNextToken() {
             numStr += currentChar();
             advance();
         }
-        return Token{TokenKind::Number, numStr}; // Return numStr directly
+        return Token{TokenKind::Number, numStr};
     }
 
     if (isalpha(currentChar())) {
@@ -28,10 +28,19 @@ Token Lexer::getNextToken() {
         return Token{TokenKind::Operator, std::string(1, op)};
     }
 
+    if (currentChar() == '(') {
+        advance();
+        return Token{TokenKind::LParen, "("};
+    }
+    if (currentChar() == ')') {
+        advance();
+        return Token{TokenKind::RParen, ")"};
+    }
+
     if (currentChar() == '\0') {
         return Token{TokenKind::TokEOF, ""};
     }
 
     advance();
-    return Token{TokenKind::TokEOF, ""};
+    return Token{TokenKind::Unknown, ""};
 }

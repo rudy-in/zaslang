@@ -7,9 +7,9 @@
 #include <vector>
 #include <cstdio>
 
-static int CurTok;
+//static int CurTok;
 static int getNextToken() {
-    return CurTok = gettok();
+    return static_cast<int>(CurTok = gettok());
 }
 
 std::unique_ptr<Expr> LogError(const char *Str) {

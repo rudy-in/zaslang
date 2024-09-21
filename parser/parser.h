@@ -11,7 +11,7 @@ class FunctionAST;
 class PrototypeAST;
 
 
-enum Token {
+enum ParserToken {
     tok_identifier,
     tok_number,
     tok_eof,
@@ -26,8 +26,7 @@ extern std::string IdentifierStr;
 extern double NumVal;
 extern int CurTok;
 
-
-int getNextToken();
+//int getNextToken();
 std::unique_ptr<Expr> ParsePrimary();
 std::unique_ptr<Expr> ParseNumberExpr();
 std::unique_ptr<Expr> ParseIdentifierExpr();

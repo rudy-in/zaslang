@@ -4,12 +4,19 @@
 #include "parser/parser.h"
 #include "parser/ast.h"
 
-static int CurTok;
+int CurTok;
 
-static int getNextToken();
-static void HandleDefinition();
-static void HandleExtern();
-static void HandleTopLevelExpression();
+static int getNextToken() {
+    return gettok();
+}
+static void HandleDefinition() {
+    std::cout << "Handling a function definition." << std::endl;
+}
+static void HandleExtern() {
+    std::cout << "Handling an extern declaration." << std::endl;
+}
+
+void HandleTopLevelExpression();
 
 static void MainLoop() {
     while (true) {
