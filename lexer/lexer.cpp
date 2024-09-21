@@ -1,7 +1,30 @@
 #include "lexer.h"
 #include <cctype>
+#include <stdexcept>
 
-Token Lexer::getNextToken() {
+std::string IdentifierStr;
+double NumVal;
+Lexer lexer; // Global lexer instance
+
+void Lexer::setInput(const std::string &inputStr) {
+    input = inputStr;
+    index = 0; // Reset the index to the start
+}
+
+char Lexer::currentChar() {
+    if (index < input.size()) {
+        return input[index];
+    }
+    return '\0'; // End of input
+}
+
+void Lexer::advance() {
+    if (index < input.size()) {
+        index++;
+    }
+}
+
+TokenKind Lexer::getNextToken() {
     while (isspace(currentChar())) advance();
 
     if (isdigit(currentChar())) {
@@ -10,37 +33,32 @@ Token Lexer::getNextToken() {
             numStr += currentChar();
             advance();
         }
-        return Token{TokenKind::Number, numStr};
+        NumVal = std::stod(numStr);
+        return TokenKind::Number;
     }
 
     if (isalpha(currentChar())) {
-        std::string idStr;
+        IdentifierStr.clear();
         while (isalnum(currentChar())) {
-            idStr += currentChar();
+            IdentifierStr += currentChar();
             advance();
         }
-        return Token{TokenKind::Identifier, idStr};
+        return TokenKind::Identifier;
     }
 
     if (currentChar() == '+' || currentChar() == '-' || currentChar() == '*' || currentChar() == '/') {
-        char op = currentChar();
         advance();
-        return Token{TokenKind::Operator, std::string(1, op)};
-    }
-
-    if (currentChar() == '(') {
-        advance();
-        return Token{TokenKind::LParen, "("};
-    }
-    if (currentChar() == ')') {
-        advance();
-        return Token{TokenKind::RParen, ")"};
+        return TokenKind::Operator;
     }
 
     if (currentChar() == '\0') {
-        return Token{TokenKind::TokEOF, ""};
+        return TokenKind::TokEOF;
     }
 
     advance();
-    return Token{TokenKind::Unknown, ""};
+    return TokenKind::Unknown; // Handle unknown characters
+}
+
+int gettok() {
+    return static_cast<int>(lexer.getNextToken()); // Use the Lexer instance
 }

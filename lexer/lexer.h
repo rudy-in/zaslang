@@ -2,22 +2,25 @@
 #define LEXER_H
 
 #include <string>
-int gettok();
-enum class TokenKind { Identifier, Number, Operator, LParen, RParen, TokEOF, Unknown };
 
+enum class TokenKind { Identifier, Number, Operator, TokEOF, Unknown };
 extern std::string IdentifierStr;
-
-struct Token {
-    TokenKind kind;
-    std::string value;
-};
+extern double NumVal;
 
 class Lexer {
 public:
-    Token getNextToken();
+    void setInput(const std::string &inputStr);
+    TokenKind getNextToken();
+    
 private:
-    char currentChar();  
-    void advance();      
+    char currentChar();
+    void advance();
+    
+    std::string input; 
+    size_t index = 0;  
 };
+
+
+int gettok();
 
 #endif // LEXER_H
