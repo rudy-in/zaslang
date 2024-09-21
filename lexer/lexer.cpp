@@ -10,7 +10,7 @@ Token Lexer::getNextToken() {
             numStr += currentChar();
             advance();
         }
-        return Token{TokenKind::Number, std::stod(numStr)};
+        return Token{TokenKind::Number, numStr}; // Return numStr directly
     }
 
     if (isalpha(currentChar())) {
@@ -29,9 +29,9 @@ Token Lexer::getNextToken() {
     }
 
     if (currentChar() == '\0') {
-        return Token{TokenKind::EOF, ""};
+        return Token{TokenKind::TokEOF, ""};
     }
 
     advance();
-    return Token{TokenKind::EOF, ""};
+    return Token{TokenKind::TokEOF, ""};
 }

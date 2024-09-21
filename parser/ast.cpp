@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 
-/// base class for all expression nodes in the AST
+// ExprAST - Base class for all expression nodes.
 class ExprAST {
 public:
     virtual ~ExprAST() = default;
 };
 
-/// expression class for numeric literals like "1.0"
+// NumberExprAST - Expression class for numeric literals like "1.0".
 class NumberExprAST : public ExprAST {
     double Val;
 
@@ -18,7 +18,7 @@ public:
     double getValue() const { return Val; }
 };
 
-/// expression class for referencing a variable like "a"
+// VariableExprAST - Expression class for referencing a variable, like "a".
 class VariableExprAST : public ExprAST {
     std::string Name;
 
@@ -27,7 +27,7 @@ public:
     const std::string &getName() const { return Name; }
 };
 
-/// expression class for a binary operator (e.g., '+', '-')
+// BinaryExprAST - Expression class for a binary operator.
 class BinaryExprAST : public ExprAST {
     char Op;
     std::unique_ptr<ExprAST> LHS, RHS;
@@ -37,11 +37,11 @@ public:
         : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 
     char getOperator() const { return Op; }
-    const ExprAST *getLHS() const { return LHS.get(); }
-    const ExprAST *getRHS() const { return RHS.get(); }
+    const ExprAST* getLHS() const { return LHS.get(); }
+    const ExprAST* getRHS() const { return RHS.get(); }
 };
 
-/// expression class for function calls (e.g., foo(1, 2))
+// CallExprAST - Expression class for function calls.
 class CallExprAST : public ExprAST {
     std::string Callee;
     std::vector<std::unique_ptr<ExprAST>> Args;
@@ -50,6 +50,33 @@ public:
     CallExprAST(const std::string &Callee, std::vector<std::unique_ptr<ExprAST>> Args)
         : Callee(Callee), Args(std::move(Args)) {}
 
-    const std::string &getCallee() const { return Callee; }
-    const std::vector<std::unique_ptr<ExprAST>> &getArgs() const { return Args; }
+    const std::string& getCallee() const { return Callee; }
+    const std::vector<std::unique_ptr<ExprAST>>& getArgs() const { return Args; }
+};
+
+// PrototypeAST - This class represents the "prototype" for a function,
+// which captures its name, and its argument names.
+class PrototypeAST {
+    std::string Name;
+    std::vector<std::string> Args;
+
+public:
+    PrototypeAST(const std::string& Name, std::vector<std::string> Args)
+        : Name(Name), Args(std::move(Args)) {}
+
+    const std::string& getName() const { return Name; }
+    const std::vector<std::string>& getArgs() const { return Args; }
+};
+
+// FunctionAST - This class represents a function definition itself.
+class FunctionAST {
+    std::unique_ptr<PrototypeAST> Proto;
+    std::unique_ptr<ExprAST> Body;
+
+public:
+    FunctionAST(std::unique_ptr<PrototypeAST> Proto, std::unique_ptr<ExprAST> Body)
+        : Proto(std::move(Proto)), Body(std::move(Body)) {}
+
+    const PrototypeAST* getProto() const { return Proto.get(); }
+    const ExprAST* getBody() const { return Body.get(); }
 };
