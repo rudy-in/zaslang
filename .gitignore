@@ -1,32 +1,49 @@
-# Prerequisites
-*.d
+# Ignore compiled binaries
+zas
+zas.exe
+zas.o
+zaslang
+zaslang.exe
 
-# Compiled Object files
-*.slo
-*.lo
+# Ignore object files
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
 *.so
-*.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
+# Ignore build directories
+/build/
+/dist/
+/out/
+/bin/
+/obj/
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Ignore temporary files and backups
+*.log
+*.tmp
+*.swp
+*~
+*.bak
 
-# Executables
-*.exe
-*.out
-*.app
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore generated lexer/parser files
+lexer/ZasLexer.cpp
+lexer/ZasLexer.h
+parser/ZasParser.cpp
+parser/ZasParser.h
+parser/ZasParserBaseListener.cpp
+parser/ZasParserBaseListener.h
+
+# Ignore ANTLR generated files
+*.tokens
+*.interp
+
+# Ignore dependency management files
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
