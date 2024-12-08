@@ -1,0 +1,10 @@
+let x = 9;
+let y = 10;
+if (x + y) {
+    let z = x * y;
+    display("hello world");
+} else {
+    let z = x - y;
+    display("uwu");
+}
+x + y;
